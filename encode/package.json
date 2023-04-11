@@ -1,0 +1,14 @@
+{
+  "name": "jsencode",
+  "version": "1.0.0",
+  "description": "js加密",
+  "main": "index.js",
+  "scripts": {
+    "encode": "node encode.js"
+  },
+  "author": "木木",
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
+}
