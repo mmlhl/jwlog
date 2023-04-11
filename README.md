@@ -1,15 +1,25 @@
 # jw-log
 **nnnu教务系统登录实现。**
 ***
-## 1.文件解析
+## 1.目录结构
 
 
 
 ## 2.启用加密
+###### 介绍
+
+- 如果要进行统一认证登录的密码登录，必须启用加密。
+- **运行main.py之后，会自动运行加密端口。你可以跳过此部分。**
+- 如果想单独运行加密，则继续往下看。
+
 ###### 环境要求
 
 - node.js
 
+
+
+
+##### 以下步骤会在main.py运行之后自动完成，写出来仅是为了让你知道怎么开启加密端口
 
 ###### 进入加密模块目录
 
@@ -20,6 +30,9 @@ cd encode
 ###### 运行加密端口
 
 ~~~ shell
+# 指定端口和终结点
+npm run encode 5715 /encode
+# 或者使用默认端口和终结点
 npm run encode
 ~~~
 
@@ -35,11 +48,12 @@ npm run encode
 | key  | jC8cm2LseQg | 登录主界面中id为login-croypto的p标签里面的文本内容 |
 | psw  | password    | 用户密码                                           |
 
-示例：访问http://127.0.0.1:5715/encode?key=jC8cm2LseQg&psw=password
+示例：访问以下地址
+> http://127.0.0.1:5715/encode?key=jC8cm2LseQg&psw=password
 
 可能的结果：
 
-```text
+```
 QFWR/RanDS+HAxLBcxR3iA==
 ```
 
