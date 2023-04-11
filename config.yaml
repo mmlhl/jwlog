@@ -31,11 +31,17 @@ other:
     host: http://jw-nnnu-edu-cn.atrust.nnnu.edu.cn/jsxsd/
   #统一认证的配置
   ty:
-    # 统一认证登录的host，目前，不论在不在学校，统一认证登录都要求登录了atrust，但是感觉以后会进行修改。不然现在的登陆方式太脑瘫了。
+    # 统一认证登录的host
     host: sso.nnnu.edu.cn
+    # 统一认证登录的主界面
+    main: https://sso.nnnu.edu.cn/sso.jsp
+    # 统一认证登录的教务系统登录界面（统一认证登录不止可以登录教务系统，?之后的参数是登陆成功跳转的链接）
+    login_index: https://sso.nnnu.edu.cn/login?service=http:%2F%2Fjw.nnnu.edu.cn%2Fsso.jsp
 
 #加密配置
 encode:
+  #是否开启加密
+  open: true
   #端口
   port: 5715
   #终结点

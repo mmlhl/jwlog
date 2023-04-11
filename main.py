@@ -4,3 +4,7 @@
 # Love : 苏·IKUN·温柔·美丽·宝
 # @FileName: main.py
 # @Software: PyCharm
+import _thread
+import encode
+
+_thread.start_new_thread(encode.start, ())
