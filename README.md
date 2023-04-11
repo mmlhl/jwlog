@@ -27,14 +27,19 @@ npm run encode
 
 请求运行起来的加密链接，得到加密内容，然后就可以拿着加密后的内容提交登录请求。
 
+- 终结点：**/encode**
+- 默认端口：**5715**
+
 | 键   | 可能的值    | 说明                                               |
 | ---- | ----------- | -------------------------------------------------- |
 | key  | jC8cm2LseQg | 登录主界面中id为login-croypto的p标签里面的文本内容 |
 | psw  | password    | 用户密码                                           |
 
-示例：
+示例：访问http://127.0.0.1:5715/encode?key=jC8cm2LseQg&psw=password
 
-~~~shell
-curl 'http://127.0.0.1:5715/encode?key=jC8cm2LseQg&psw=password'
-~~~
+可能的结果：
+
+```text
+QFWR/RanDS+HAxLBcxR3iA==
+```
 
