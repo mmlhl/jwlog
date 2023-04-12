@@ -22,5 +22,8 @@ def start():
     print('加密进程退出')
 
 
-def encode(s,key, psw):
-    return s.get("http://127.0.0.1:{}{}?key={}=&psw={}".format(config['encode']['port'],config['encode']['end'],key, psw), timeout=1).text
+def encode(s, key, psw):
+    return s.get(
+        "http://127.0.0.1:{}{}?key={}=&psw={}".format(config['encode']['port'], config['encode']['end'], key, psw),
+        timeout=1).text
+
