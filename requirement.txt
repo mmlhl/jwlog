@@ -3,3 +3,4 @@ ddddocr
 requests
 lxml
 PyYAML
+urllib3==1.25.11
