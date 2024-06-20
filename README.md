@@ -3,57 +3,13 @@
 ***
 ## 1.目录结构
 
-
-
-## 2.启用加密
-###### 介绍
-
-- 如果要进行统一认证登录的密码登录，必须启用加密。
-- **运行main.py之后，会自动运行加密端口。你可以跳过此部分。**
-- 如果想单独运行加密，则继续往下看。
-
-###### 环境要求
-
-- node.js
-
-
-
-
-##### 以下步骤会在main.py运行之后自动完成，写出来仅是为了让你知道怎么开启加密端口
-
-###### 进入加密模块目录
-
-~~~ shell
-cd encode
+## 2.环境要求
+### 2.1 conda环境
+ 建议使用conda来创建一个新的环境
+ ~~~shell
+ conda create -n jw python=3.8
+ ~~~
+切换到jw环境
+~~~shell
+pip install -r requirement.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ~~~
-
-###### 运行加密端口
-
-~~~ shell
-# 指定端口和终结点
-npm run encode 5715 /encode
-# 或者使用默认端口和终结点
-npm run encode
-~~~
-
-###### 加密数据
-
-请求运行起来的加密链接，得到加密内容，然后就可以拿着加密后的内容提交登录请求。
-
-- 终结点：**/encode**
-- 默认端口：**5715**
-
-| 键   | 可能的值    | 说明                                               |
-| ---- | ----------- | -------------------------------------------------- |
-| key  | jC8cm2LseQg | 登录主界面中id为login-croypto的p标签里面的文本内容 |
-| psw  | password    | 用户密码                                           |
-
-示例：访问以下地址
-> http://127.0.0.1:5715/encode?key=jC8cm2LseQg&psw=password
-
-可能的结果：
-
-```
-QFWR/RanDS+HAxLBcxR3iA==
-```
-
