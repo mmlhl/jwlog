@@ -10,11 +10,11 @@ import requests
 from requests.cookies import RequestsCookieJar
 
 
-jw_cookie = requests.cookies.RequestsCookieJar()
 s = requests.session()
 c = requests.cookies.RequestsCookieJar()
-cookie_str = 'language=en-US; lang=en-us; enableBrowserAccess=1; showClientDownloadUrl=1; restrictionImgPath=access_restriction_default.png; sid-legacy=cf2697f1-b784-482c-b566-b833287b7883_99b4a8bd-1848-45d9-8320-d5d92fa18f02; sid-legacy.sig=yOeEJ-AQCejrALPAg6j27Y-Mq7PMAJz2kBedffzSfQw; sid=cf2697f1-b784-482c-b566-b833287b7883_99b4a8bd-1848-45d9-8320-d5d92fa18f02; sid.sig=CNkEv4JRlmu3K2Da0MibvpcHXEmbgBLH9xrJvbJcOzg; online=1; sdp_user_token=cf2697f1-b784-482c-b566-b833287b7883_99b4a8bd-1848-45d9-8320-d5d92fa18f02'
+cookie_str = 'language=zh-CN; lang=zh-cn; enableBrowserAccess=1; showClientDownloadUrl=1; restrictionImgPath=access_restriction_default.png; online=1; sid-legacy=cf2697f1-b784-482c-b566-b833287b7883_50980829-45e3-43b4-9bb3-8e76497f9e3a; sid-legacy.sig=DPNNaOFefgBqOJcH3NgnJGuVeX3voZjNvp-a3M84Xlo; sid=cf2697f1-b784-482c-b566-b833287b7883_50980829-45e3-43b4-9bb3-8e76497f9e3a; sid.sig=FvkIx0tZjkxvLJacoHig4DOU5OzaR515yejOVmRSYtA; sdp_user_token=cf2697f1-b784-482c-b566-b833287b7883_50980829-45e3-43b4-9bb3-8e76497f9e3a'
 split_list = cookie_str.split('; ')
+
 for kv in split_list:
     k, v = kv.split('=')
     c.set(k, v)

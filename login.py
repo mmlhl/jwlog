@@ -29,28 +29,32 @@ def ty_login(acc: str, psw: str, s: requests.Session):
     try:
         header = {
             "Host": "sso.nnnu.edu.cn",
-            "Referer":config['other']['ty']['login_index'],
+            "Referer": "https://sso.nnnu.edu.cn/login?service=http:%2F%2Fjw.nnnu.edu.cn%2Fsso.jsp",
         }
-        main_html_resp = s.get(config['other']['ty']['login_index'])
+        main_html_resp = s.get("https://sso.nnnu.edu.cn/login?service=http:%2F%2Fjw.nnnu.edu.cn%2Fsso.jsp")
         html = etree.HTML(main_html_resp.text)
         login_page_flowkey = html.xpath('//p[@id="login-page-flowkey"]/text()')[0]
         login_croypto = html.xpath('//p[@id="login-croypto"]/text()')[0]
         cipher = DES.new(base64.b64decode(login_croypto), DES.MODE_ECB)
         en = cipher.encrypt(pad(psw.encode('utf-8'), DES.block_size, style='pkcs7'))
-        encode_result = base64.b64encode(en).decode('utf-8')
-
+        encode = base64.b64encode(en).decode('utf-8')
+        # csrf_js = s.get("http://sso-nnnu-edu-cn-s.atrust.nnnu.edu.cn/public/deploy/deploy.js?" + get_millisecond())
         csrf_js = s.get("https://sso.nnnu.edu.cn/public/deploy/deploy.js?" + get_millisecond())
+
         csrf_key, csrf_value = get_csrf_key_value(csrf_js.text)
         header["Csrf-Key"] = csrf_key
         header["Csrf-Value"] = csrf_value
-        login_result = s.post("https://sso.nnnu.edu.cn/login",
-                              data={"_eventId": "submit", "type": "UsernamePassword",
-                                    "execution": login_page_flowkey, "geolocation": "",
-                                    "username": acc, "croypto": login_croypto,
-                                    "password": encode_result, "passwordPre": psw}
-                              , headers=header, allow_redirects=False, timeout=1)
+
+        login_result = s.post(
+            # "http://sso-nnnu-edu-cn-s.atrust.nnnu.edu.cn/login",
+            "https://sso.nnnu.edu.cn/login",
+            data={"_eventId": "submit", "type": "UsernamePassword",
+                  "execution": login_page_flowkey, "geolocation": "",
+                  "username": acc, "croypto": login_croypto,
+                  "password": encode, "passwordPre": psw}
+            , headers=header, allow_redirects=False, timeout=5)
         h = login_result.headers
-        if not 'Location' in h.keys():
+        if 'Location' in h.keys():
             s.headers = header['Host'] = 'jw-nnnu-edu-cn.atrust.nnnu.edu.cn'
             url = h['Location']
             while True:
@@ -60,16 +64,16 @@ def ty_login(acc: str, psw: str, s: requests.Session):
                     s.cookies.set(name=name, value=value)
                 resp = s.get(url, headers=header, allow_redirects=False, timeout=1)
                 if '/xsMain.htmlx' in resp.url:
-                    return True
+                    return True,None
                 elif 'Location' in resp.headers.keys():
                     url = resp.headers['Location']
                 else:
                     break
+
         s.cookies.clear()
         s.cookies.update(c)
-        return False
-    except Exception as ee:
+        return False,None
+    except requests.exceptions.ReadTimeout as ee:
         s.cookies.clear()
         s.cookies.update(c)
-        print(ee)
-        return False
+        return False,ee
