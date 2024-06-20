@@ -6,6 +6,6 @@
 import yaml
 
 yamlPath = 'config.yaml'
-config={}
-with open(yamlPath, 'rb') as f:
-    config= yaml.load(f.read(), Loader=yaml.FullLoader)
+
+
+config=yaml.load(open(yamlPath,'r',encoding='utf-8'), Loader=yaml.FullLoader,)
