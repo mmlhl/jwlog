@@ -1,7 +1,6 @@
 # -*- coding : utf-8 -*-
 # @Time      : 2023/4/11 20:12
 # @Author    : 木木
-# Love       : 苏·IKUN·温柔·美丽·宝
 # @FileName  : config.py
 # description:全局从这里获取配置文件信息
 import yaml
