@@ -33,7 +33,6 @@ other:
   ty:
     # 统一认证登录的host
     host: sso.nnnu.edu.cn
-
     # 统一认证登录的主界面
     main: https://sso.nnnu.edu.cn/sso.jsp
     # 统一认证登录的教务系统登录界面（统一认证登录不止可以登录教务系统，?之后的参数是登陆成功跳转的链接）
