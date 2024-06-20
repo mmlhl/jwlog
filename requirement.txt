@@ -1,0 +1,5 @@
+pycryptodome
+ddddocr
+requests
+lxml
+PyYAML
