@@ -3,6 +3,7 @@
 # @Author  : 木木
 # @FileName: login.py
 # @Software: PyCharm6
+import ddddocr
 import requests
 from lxml import etree
 from config import config
@@ -10,10 +11,11 @@ import time
 import base64
 from Crypto.Cipher import DES
 from Crypto.Util.Padding import pad
+
 def get_millisecond():
     return str(int(round(time.time() * 1000)))
 
-
+ocr = ddddocr.DdddOcr()
 # 从js中截取csrf key和value（需要在请求头带上这两个东西才可以访问）
 def get_csrf_key_value(response_text):
     key_index = response_text.find("Csrf-Key")
@@ -24,6 +26,34 @@ def get_csrf_key_value(response_text):
 # 传统教务系统加密，将账号密码进行编码
 def usr_encode(acc, psw):
     return base64.b64encode(acc.encode()).decode() + '%%%' + base64.b64encode(psw.encode()).decode()
+
+def normal_login(msg, acc: str, psw: str, s: requests.Session):
+    c = s.cookies.copy()
+    try:
+
+        # 本来打算访问主页获取cookie，后来发现可以省去，因为下一步获取验证码也会获取cookie
+        # s.get(host + Holder.index)
+        # 获取验证码文件
+        res_verifycode = s.get(config + '/jsxsd/verifycode.servlet',timeout=3)
+        verifycode = ocr.classification(res_verifycode.content)
+        # ocr识别验证码
+
+
+        # 构建登录请求体
+        login_body = {'loginMethod': 'LoginToXk', 'userAccount': acc,
+                      'userPassword': psw, 'RANDOMCODE': verifycode,
+                      'encoded': usr_encode(acc, psw)}
+        # 发起登录请求
+        login_result = s.post(url=host + '/jsxsd/xk/LoginToXk', data=login_body,timeout=3)
+        # 通过网页后缀判断是否登录成功，如果不成功会回到当前界面，登录成功则重定向到/jsxsd/framework/xsMain.htmlx
+        # 登录成功则返回true，其他情况都会跑到最后，返回false
+        if login_result.url.endswith('htmlx'):
+            return True,None
+        else:
+            return False,None
+    except Exception as e:
+        s.cookies.update(c)
+        return False ,e
 def ty_login(acc: str, psw: str, s: requests.Session):
     c = s.cookies.copy()
     try:
