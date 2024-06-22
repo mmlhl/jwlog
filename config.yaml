@@ -1,6 +1,11 @@
 #运行设备是否连接了校园网
 server_in_school: false
 flask_port: 8686
+aTrust:
+  host: https://atrust.nnnu.edu.cn:1443
+  main: /portal/
+  authConfig: passport/v1/public/authConfig?clientType=SDPBrowserClient&platform=Windows&lang=zh-CN&needTicket=1
+
 # 通用的url后缀
 url:
   # 图片验证码终结点
