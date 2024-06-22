@@ -12,6 +12,21 @@ from urllib import parse
 
 from requests import session
 
+from Crypto.Cipher import ARC4
+import binascii
+
+def rc4_encrypt(_data, _key):
+    cipher = ARC4.new(key)
+    return cipher.encrypt(_data)
+
+def random_deviceid(input_string):
+    _key = input_string.encode('utf-8')
+    _data = input_string.encode('utf-8')
+    encrypted_data = rc4_encrypt(_data, _key)
+    while len(encrypted_data) < 66:
+        encrypted_data += rc4_encrypt(encrypted_data, _key)
+    return binascii.hexlify(encrypted_data).decode('utf-8')[:66]
+
 s = session()
 s.headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
@@ -61,6 +76,7 @@ for i in range(5):
         data = d['data'][0]
         ticket=json.loads(data)['ticket']
         s.headers.update({'Referer':rr.url})
+        random_deviceid=random_deviceid(username)
         s.get('https://atrust.nnnu.edu.cn:1443/passport/v1/public/authConfig',params={
             'clientType':'SDPBrowserClient',
             'platform':'Windows',
@@ -73,10 +89,10 @@ for i in range(5):
             'lang':'zh-CN'
         }, data={
             "ticket": ticket,
-            "deviceId": "001e45c998a51a3e44658fdc2b993f885471e2451bf639c182d509af3383b36638",
+            "deviceId": random_deviceid,
             "env": {
                 "endpoint": {
-                    "device_id": "001e45c998a51a3e44658fdc2b993f885471e2451bf639c182d509af3383b36638",
+                    "device_id": random_deviceid,
                     "device": {
                         "type": "browser"
                     }
@@ -85,7 +101,5 @@ for i in range(5):
         })
         s.get('https://atrust.nnnu.edu.cn:1443/passport/v1/auth/authCheck?clientType=SDPBrowserClient&platform=Windows&lang=zh-CN')
         home = s.get('http://jw-nnnu-edu-cn.atrust.nnnu.edu.cn/')
-        print(home.url)
         break
     time.sleep(2)
-print(r.cookies.get_dict())
