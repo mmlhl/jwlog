@@ -9,14 +9,14 @@ import re
 import time
 from datetime import datetime
 from urllib import parse
-
 from requests import session
-
 from Crypto.Cipher import ARC4
 import binascii
+from keep_cookie import keep_cookie, CookieData, add_cookie
+
 
 def rc4_encrypt(_data, _key):
-    cipher = ARC4.new(key)
+    cipher = ARC4.new(_key)
     return cipher.encrypt(_data)
 
 def random_deviceid(input_string):
@@ -57,7 +57,6 @@ for i in range(5):
             'redirect_uri': 'https://atrust.nnnu.edu.cn:1443/passport/v1/auth/qywechat', '_': timestamp + i}
     callback_response = s.get('https://open.work.weixin.qq.com/wwopen/sso/l/qrConnect', params=data).text
     callback = callback_response[14:-1]
-    print(callback_response)
     callback_json = json.loads(callback)
     if callback_json['status'] == 'QRCODE_SCAN_ERR':
         print('扫码超时')
@@ -100,6 +99,7 @@ for i in range(5):
             }
         })
         s.get('https://atrust.nnnu.edu.cn:1443/passport/v1/auth/authCheck?clientType=SDPBrowserClient&platform=Windows&lang=zh-CN')
-        home = s.get('http://jw-nnnu-edu-cn.atrust.nnnu.edu.cn/')
+        s.get('http://jw-nnnu-edu-cn.atrust.nnnu.edu.cn/sso.jsp', allow_redirects=True)
+        add_cookie(CookieData(username=username,_cookies=s.cookies))
         break
     time.sleep(2)

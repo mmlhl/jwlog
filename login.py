@@ -99,7 +99,6 @@ def ty_login(acc: str, psw: str, s: requests.Session):
                     url = resp.headers['Location']
                 else:
                     break
-
         s.cookies.clear()
         s.cookies.update(c)
         return False,None
